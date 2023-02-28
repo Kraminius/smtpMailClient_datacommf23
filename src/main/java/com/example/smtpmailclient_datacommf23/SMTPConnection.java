@@ -36,14 +36,9 @@ public class SMTPConnection {
 
 
         /* Fill in */
-        String[] rc = fromServer.readLine().split(" ");
-        String temp = rc[0];
-        if(!temp.equals("220")){
-         throw new IOException();
-        }
 
-        for(int i = 0; i < rc.length; i++){
-            System.out.println(rc[i]);
+        if(rcListen() != 220){
+         throw new IOException();
         }
 
 	/* Read a line from server and check that the reply code is 220.
@@ -53,12 +48,7 @@ public class SMTPConnection {
 	/* SMTP handshake. We need the name of the local machine.
 	   Send the appropriate SMTP handshake command. */
         String localhost = "127.0.0.1";
-
-
         toServer.flush();
-
-        toServer.println("HELO");
-        System.out.println(fromServer.readLine());
 
 
 
@@ -79,12 +69,11 @@ public class SMTPConnection {
         /* Send all the necessary commands to send a message. Call
 	   sendCommand() to do the dirty work. Do _not_ catch the
 	   exception thrown from sendCommand(). */
-        sendCommand("helo", 250);
-        sendCommand("mail from: <\""+ envelope.Sender + "\">", 250);
-        sendCommand("rcpt to: <\"" + envelope.DestHost + "\">", 354);
-        sendCommand("data", 354);
+        sendCommand("HELO", 250);
+        sendCommand("MAIL FROM: <\""+ envelope.Sender + "\">", 250);
+        sendCommand("RCPT TO: <\"" + envelope.DestHost + "\">", 250);
+        sendCommand("DATA", 354);
         sendCommand(envelope.Message + "\n\r.", 250);
-        close();
     }
 
     /* Close the connection. First, terminate on SMTP level, then
@@ -104,8 +93,13 @@ public class SMTPConnection {
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
         /* Fill in */
-
-
+        toServer.println(command);
+        if(rcListen() != rc){
+            throw new IOException();
+        }
+        else {
+            System.out.println("everything works bby");
+        }
 
         /* Write command to server and read reply from server. */
         /* Fill in */
@@ -114,6 +108,12 @@ public class SMTPConnection {
 	/* Check that the server's reply code is the same as the parameter
 	   rc. If not, throw an IOException. */
         /* Fill in */
+    }
+
+    private int rcListen() throws IOException {
+        String[] temp = fromServer.readLine().split(" ");
+        String rc = temp[0];
+        return Integer.parseInt(rc);
     }
 
     /* Parse the reply line from the server. Returns the reply code. */
