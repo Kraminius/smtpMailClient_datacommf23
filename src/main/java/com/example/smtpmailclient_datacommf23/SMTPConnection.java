@@ -74,6 +74,7 @@ public class SMTPConnection {
         /* Send all the necessary commands to send a message. Call
 	   sendCommand() to do the dirty work. Do _not_ catch the
 	   exception thrown from sendCommand(). */
+        sendCommand("helo", 250);
         sendCommand("mail from: <\""+ envelope.Sender + "\">", 250);
         sendCommand("rcpt to: <\"" + envelope.DestHost + "\">", 354);
         sendCommand("data", 354);
@@ -107,7 +108,8 @@ public class SMTPConnection {
         /* Fill in */
 	/* Check that the server's reply code is the same as the parameter
 	   rc. If not, throw an IOException. */
-
+        toServer.writeChars(command);
+        if(parseReply(fromServer.readLine().split(" ")[0]) == rc) throw new IOException();
         /* Fill in */
     }
 
