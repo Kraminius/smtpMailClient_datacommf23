@@ -18,13 +18,13 @@ public class MailClient extends Frame {
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
     private Label serverLabel = new Label("Local mailserver:");
-    private TextField serverField = new TextField("", 40);
+    private TextField serverField = new TextField("datacomm.bhsi.xyz", 40);
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("", 40);
+    private TextField fromField = new TextField("s221064@dtu.dk", 40);
     private Label toLabel = new Label("To:"); 
-    private TextField toField = new TextField("", 40);
+    private TextField toField = new TextField("s221064@dtu.dk", 40);
     private Label subjectLabel = new Label("Subject:");
-    private TextField subjectField = new TextField("", 40);
+    private TextField subjectField = new TextField("hej", 40);
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea(10, 40);
 
@@ -57,6 +57,7 @@ public class MailClient extends Frame {
 	fieldPanel.add(fromPanel);
 	fieldPanel.add(toPanel);
 	fieldPanel.add(subjectPanel);
+
 
 	/* Create a panel for the buttons and add listeners to the
 	   buttons. */

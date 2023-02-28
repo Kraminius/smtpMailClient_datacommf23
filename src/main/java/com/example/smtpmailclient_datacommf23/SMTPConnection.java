@@ -15,9 +15,9 @@ public class SMTPConnection {
     /* Streams for reading and writing the socket */
 
     private BufferedReader fromServer;
-    private DataOutputStream toServer;
+    private BufferedWriter toServer;
 
-    private static final int SMTP_PORT = 25;
+    private static final int SMTP_PORT = 2526;
     private static final String CRLF = "\r\n";
 
     /* Are we connected? Used in close() to determine what to do. */
@@ -26,13 +26,26 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        System.out.println(envelope.DestAddr.getHostName());
-        connection = new Socket(envelope.DestAddr, 2526);
-        fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-        toServer =   new DataOutputStream(connection.getOutputStream());
+        System.out.println(envelope.DestAddr.getHostName());
+        connection = new Socket(envelope.DestAddr.getHostName(), SMTP_PORT);
+        fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        toServer =   new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+
+
+
 
         /* Fill in */
+        String[] rc = fromServer.readLine().split(" ");
+        String temp = rc[0];
+        if(!temp.equals("220")){
+         throw new IOException();
+        }
+
+        for(int i = 0; i < rc.length; i++){
+            System.out.println(rc[i]);
+        }
+
 	/* Read a line from server and check that the reply code is 220.
 	   If not, throw an IOException. */
         /* Fill in */
@@ -40,9 +53,16 @@ public class SMTPConnection {
 	/* SMTP handshake. We need the name of the local machine.
 	   Send the appropriate SMTP handshake command. */
         String localhost = "127.0.0.1";
-        String servermsg = fromServer.readLine();
-        System.out.println(servermsg);
-        sendCommand(servermsg, 220);
+
+
+        toServer.flush();
+
+
+
+        //System.out.println(fromServer.readLine());
+
+
+        //sendCommand(servermsg, 220);
 
         isConnected = true;
     }
