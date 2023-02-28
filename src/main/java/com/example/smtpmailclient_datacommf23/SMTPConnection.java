@@ -26,8 +26,10 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        connection = new Socket("127.0.0.1", 5558);
+        System.out.println(envelope.DestAddr.getHostName());
+        connection = new Socket(envelope.DestAddr, 2526);
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
         toServer =   new DataOutputStream(connection.getOutputStream());
 
         /* Fill in */
@@ -38,7 +40,9 @@ public class SMTPConnection {
 	/* SMTP handshake. We need the name of the local machine.
 	   Send the appropriate SMTP handshake command. */
         String localhost = "127.0.0.1";
-        sendCommand("helo", 220);
+        String servermsg = fromServer.readLine();
+        System.out.println(servermsg);
+        sendCommand(servermsg, 220);
 
         isConnected = true;
     }
@@ -50,9 +54,8 @@ public class SMTPConnection {
         /* Send all the necessary commands to send a message. Call
 	   sendCommand() to do the dirty work. Do _not_ catch the
 	   exception thrown from sendCommand(). */
-        sendCommand("helo", 220);
-        sendCommand("mail from: <\"s224271@student.dtu.dk\">", 250);
-        sendCommand("rcpt to: <\"s224279@student.dtu.dk\">", 354);
+        sendCommand("mail from: <\""+ envelope.Sender + "\">", 250);
+        sendCommand("rcpt to: <\"" + envelope.DestHost + "\">", 354);
         sendCommand("data", 354);
         sendCommand(envelope.Message + "\n\r.", 250);
         close();
@@ -75,14 +78,16 @@ public class SMTPConnection {
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
         /* Fill in */
+
+
+
         /* Write command to server and read reply from server. */
         /* Fill in */
 
         /* Fill in */
 	/* Check that the server's reply code is the same as the parameter
 	   rc. If not, throw an IOException. */
-        toServer.writeChars(command);
-        if(parseReply(fromServer.readLine().split(" ")[0]) == rc) throw new IOException();
+
         /* Fill in */
     }
 
