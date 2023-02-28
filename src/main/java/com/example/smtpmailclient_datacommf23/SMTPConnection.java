@@ -108,8 +108,6 @@ public class SMTPConnection {
         /* Fill in */
 	/* Check that the server's reply code is the same as the parameter
 	   rc. If not, throw an IOException. */
-        toServer.writeChars(command);
-        if(parseReply(fromServer.readLine().split(" ")[0]) == rc) throw new IOException();
         /* Fill in */
     }
 
