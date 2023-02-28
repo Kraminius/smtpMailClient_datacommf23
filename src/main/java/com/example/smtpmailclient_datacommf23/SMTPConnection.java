@@ -15,7 +15,7 @@ public class SMTPConnection {
     /* Streams for reading and writing the socket */
 
     private BufferedReader fromServer;
-    private BufferedWriter toServer;
+    private PrintWriter toServer;
 
     private static final int SMTP_PORT = 2526;
     private static final String CRLF = "\r\n";
@@ -30,7 +30,7 @@ public class SMTPConnection {
         System.out.println(envelope.DestAddr.getHostName());
         connection = new Socket(envelope.DestAddr.getHostName(), SMTP_PORT);
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        toServer =   new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+        toServer = new PrintWriter(connection.getOutputStream(), true);
 
 
 
@@ -56,6 +56,11 @@ public class SMTPConnection {
 
 
         toServer.flush();
+
+        toServer.println("HELO");
+        System.out.println(fromServer.readLine());
+
+
 
 
 
