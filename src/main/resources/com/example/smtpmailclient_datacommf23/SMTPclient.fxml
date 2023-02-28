@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
 
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.smtpmailclient_datacommf23.SMTPclient">
+   <children>
+      <VBox prefHeight="500.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="800.0">
+               <children>
+                  <TextField layoutX="16.0" layoutY="45.0" prefHeight="25.0" prefWidth="600.0" promptText="Mail from:" />
+                  <TextField layoutX="16.0" layoutY="75.0" prefHeight="25.0" prefWidth="600.0" promptText="Mail to:" />
+                  <TextField layoutX="16.0" layoutY="105.0" prefHeight="25.0" prefWidth="600.0" promptText="Subject:" />
+               </children>
+            </AnchorPane>
+            <HBox prefHeight="370.0" prefWidth="800.0">
+               <children>
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="800.0">
+                     <children>
+                        <TextArea layoutX="16.0" layoutY="7.0" prefHeight="353.0" prefWidth="768.0" promptText="Mail data" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
