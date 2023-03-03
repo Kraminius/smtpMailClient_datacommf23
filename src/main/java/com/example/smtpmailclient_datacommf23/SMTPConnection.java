@@ -69,7 +69,10 @@ public class SMTPConnection {
         /* Send all the necessary commands to send a message. Call
 	   sendCommand() to do the dirty work. Do _not_ catch the
 	   exception thrown from sendCommand(). */
-        sendCommand("HELO", 250);
+        sendCommand("EHLO" + envelope.Sender, 250);
+        sendCommand("AUTH LOGIN", 334);
+        sendCommand("echo -ne Datacomm09 | base64", 334);
+        sendCommand("echo -ne ytxlseqfdyljrhph | base64", 334);
         sendCommand("MAIL FROM: <\""+ envelope.Sender + "\">", 250);
         sendCommand("RCPT TO: <\"" + envelope.DestHost + "\">", 250);
         sendCommand("DATA", 354);
@@ -113,6 +116,7 @@ public class SMTPConnection {
     private int rcListen() throws IOException {
         String[] temp = fromServer.readLine().split(" ");
         String rc = temp[0];
+        System.out.println(rc);
         return Integer.parseInt(rc);
     }
 

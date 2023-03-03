@@ -1,5 +1,8 @@
 package com.example.smtpmailclient_datacommf23;
 
+import javafx.application.Platform;
+import javafx.stage.StageStyle;
+
 import java.io.*;
 import java.net.*;
 import java.awt.*;
