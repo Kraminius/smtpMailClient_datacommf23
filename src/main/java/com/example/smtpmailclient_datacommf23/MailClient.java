@@ -23,8 +23,6 @@ public class MailClient extends Frame {
     private TextField fromField = new TextField("s221064@dtu.dk", 40);
     private Label toLabel = new Label("To:"); 
     private TextField toField = new TextField("s221064@dtu.dk s224314@dtu.dk", 40);
-	//Multiple recipients
-	private String[] recipients = toField.getText().split(" ");
     private Label subjectLabel = new Label("Subject:");
     private TextField subjectField = new TextField("hej", 40);
     private Label messageLabel = new Label("Message:");
@@ -87,6 +85,10 @@ public class MailClient extends Frame {
     class SendListener implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 	    System.out.println("Sending mail");
+
+
+		//Laver et array med alle i toFieldet. Kan være mellem 1 og 2
+		String[] recipients = toField.getText().split(" ");
 	    
 	    /* Check that we have the local mailserver */
 	    if ((serverField.getText()).equals("")) {
@@ -105,7 +107,7 @@ public class MailClient extends Frame {
 	    }
 
 	    /* Create the message */
-	    Message mailMessage = new Message(fromField.getText(), 
+	    Message mailMessage = new Message(fromField.getText(),
 					      recipients,
 					      subjectField.getText(), 
 					      messageText.getText());
