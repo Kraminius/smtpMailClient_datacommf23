@@ -18,7 +18,7 @@ public class Message {
     /* Sender and recipient. With these, we don't need to extract them
        from the headers. */
     private String From;
-    private String To;
+    //private String To;
 	private String[] recipientses;
 
     /* To make it look nicer */
@@ -60,10 +60,12 @@ public class Message {
 	return From;
     }
 
+	/*
     public String getTo() {
 	return To;
     }
 
+	 */
 	public String[] getRecipientses(){
 		return recipientses;
 	}
