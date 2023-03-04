@@ -23,6 +23,8 @@ public class MailClient extends Frame {
     private TextField fromField = new TextField("s221064@dtu.dk", 40);
     private Label toLabel = new Label("To:"); 
     private TextField toField = new TextField("s221064@dtu.dk", 40);
+	//Multiple recipients
+	private String[] recipients = toField.getText().split(" ");
     private Label subjectLabel = new Label("Subject:");
     private TextField subjectField = new TextField("hej", 40);
     private Label messageLabel = new Label("Message:");
@@ -104,7 +106,7 @@ public class MailClient extends Frame {
 
 	    /* Create the message */
 	    Message mailMessage = new Message(fromField.getText(), 
-					      toField.getText(), 
+					      recipients,
 					      subjectField.getText(), 
 					      messageText.getText());
 

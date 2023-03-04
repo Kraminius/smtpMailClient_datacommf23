@@ -29,7 +29,10 @@ public class Envelope {
     public Envelope(Message message, String localServer) throws UnknownHostException {
 	/* Get sender and recipient. */
 	Sender = message.getFrom();
-	Recipient = message.getTo();
+
+	//Deler op i flere recipients
+
+	//Recipient = message.getTo();
 
 	/* Get message. We must escape the message to make sure that 
 	   there are no single periods on a line. This would mess up
@@ -70,7 +73,9 @@ public class Envelope {
     /* For printing the envelope. Only for debug. */
     public String toString() {
 	String res = "Sender: " + Sender + '\n';
-	res += "Recipient: " + Recipient + '\n';
+	for(int i = 0; i < Message.recipients.length; i++) {
+		res += "Recipient: " + recipients[i] + '\n';
+	}
 	res += "MX-host: " + DestHost + ", address: " + DestAddr + '\n';
 	res += "Message:" + '\n';
 	res += Message.toString();

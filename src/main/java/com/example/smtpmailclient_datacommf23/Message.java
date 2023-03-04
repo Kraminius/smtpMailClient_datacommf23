@@ -19,19 +19,32 @@ public class Message {
        from the headers. */
     private String From;
     private String To;
+	private String[] recipientses;
 
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
 
     /* Create the message object by inserting the required headers from
-       RFC 822 (From, To, Date). */
+       RFC 822 (From, To, Date).
     public Message(String from, String to, String subject, String text) {
-	/* Remove whitespace */
+	/* Remove whitespace
 	From = from.trim();
 	To = to.trim();
 	Headers = "From: " + From + CRLF;
 	Headers += "To: " + To + CRLF;
 	Headers += "Subject: " + subject.trim() + CRLF;
+	*/
+
+	//Laver for flere modtagere
+	    public Message(String from, String[] recipients, String subject, String text) {
+			/* Remove whitespace */
+			From = from.trim();
+			recipientses = recipients;
+			Headers = "From: " + From + CRLF;
+			for(int i = 0; i < recipientses.length; i++){
+			Headers += "To: " + recipientses[i] + CRLF;}
+			Headers += "Subject: " + subject.trim() + CRLF;
+
 
 	/* A close approximation of the required format. Unfortunately
 	   only GMT. */
@@ -51,28 +64,52 @@ public class Message {
 	return To;
     }
 
+	public String[] getRecipientses(){
+		return recipientses;
+	}
+
     /* Check whether the message is valid. In other words, check that
        both sender and recipient contain only one @-sign. */
     public boolean isValid() {
 	int fromat = From.indexOf('@');
-	int toat = To.indexOf('@');
+	//int toat = To.indexOf('@');
+		//Valid for each recipient
+		for(int i = 0; i < recipientses.length; i++){
+			int toat = recipientses[i].indexOf('@');
+
+			if(toat < 1 || (recipientses[i].length() - toat) <= 1) {
+				System.out.println("Recipient address is invalid");
+				return false;
+			}
+
+			if(toat != recipientses[i].lastIndexOf('@')) {
+				System.out.println("Recipient address is invalid");
+				return false;
+			}
+		}
 
 	if(fromat < 1 || (From.length() - fromat) <= 1) {
 	    System.out.println("Sender address is invalid");
 	    return false;
 	}
+	/*
 	if(toat < 1 || (To.length() - toat) <= 1) {
 	    System.out.println("Recipient address is invalid");
 	    return false;
 	}
+
+	 */
 	if(fromat != From.lastIndexOf('@')) {
 	    System.out.println("Sender address is invalid");
 	    return false;
 	}
+	/*
 	if(toat != To.lastIndexOf('@')) {
 	    System.out.println("Recipient address is invalid");
 	    return false;
-	}	
+	}
+
+	 */
 	return true;
     }
     
