@@ -92,22 +92,14 @@ public class SMTPConnection {
     /* Send an SMTP command to the server. Check that the reply code is
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
-        /* Fill in */
+        /* Write command to server and read reply from server. */
         toServer.println(command);
+        /* Check that the server's reply code is the same as the parameter
+	   rc. If not, throw an IOException. */
         if(rcListen() != rc){
             throw new IOException();
         }
-        else {
-            System.out.println("everything works bby");
-        }
-
-        /* Write command to server and read reply from server. */
-        /* Fill in */
-
-        /* Fill in */
-	/* Check that the server's reply code is the same as the parameter
-	   rc. If not, throw an IOException. */
-        /* Fill in */
+        System.out.println("everything works bby");
     }
 
     private int rcListen() throws IOException {
