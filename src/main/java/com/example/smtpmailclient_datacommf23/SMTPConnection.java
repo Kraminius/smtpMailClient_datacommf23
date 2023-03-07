@@ -71,7 +71,10 @@ public class SMTPConnection {
 	   exception thrown from sendCommand(). */
         sendCommand("HELO", 250);
         sendCommand("MAIL FROM: <\""+ envelope.Sender + "\">", 250);
-        sendCommand("RCPT TO: <\"" + envelope.DestHost + "\">", 250);
+        for(int i = 0; i < envelope.Recipient.length; i ++) {
+            sendCommand("RCPT TO: <\"" + envelope.Recipient[i] + "\">", 250);
+            System.out.println("Sending mail to: " + envelope.Recipient[i]);
+        }
         sendCommand("DATA", 354);
         sendCommand(envelope.Message + "\n\r.", 250);
     }
