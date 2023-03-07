@@ -76,7 +76,14 @@ public class SMTPConnection {
             System.out.println("Sending mail to: " + envelope.Recipient[i]);
         }
         sendCommand("DATA", 354);
-        sendCommand(envelope.Message + "\n\r.", 250);
+
+        if(envelope.hasFile){
+            sendCommand(envelope.Message + "\n" + envelope.attachment + "\n\r.", 250);
+        }
+        else{
+            sendCommand(envelope.Message + "\n\r.", 250);
+        }
+
     }
 
     /* Close the connection. First, terminate on SMTP level, then

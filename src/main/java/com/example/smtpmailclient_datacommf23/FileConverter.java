@@ -25,6 +25,7 @@ public class FileConverter {
         return "";
     }
 
+
     public static String getType(File file){
         try{
             String mimeType = Files.probeContentType(file.toPath());
