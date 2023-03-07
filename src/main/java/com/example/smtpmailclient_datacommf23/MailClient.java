@@ -129,8 +129,11 @@ public class MailClient extends Frame {
 	    }
 	    try {
 		SMTPConnection connection = new SMTPConnection(envelope);
+		System.out.println(1);
 		connection.send(envelope);
+			System.out.println(1);
 		connection.close();
+			System.out.println(1);
 	    } catch (IOException error) {
 		System.out.println("Sending failed: " + error);
 		return;

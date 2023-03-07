@@ -48,7 +48,6 @@ public class Message {
     public String getFrom() {
 	return From;
     }
-
 	public String[] getRecipientses(){
 		return recipientses;
 	}
