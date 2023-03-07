@@ -77,11 +77,33 @@ public class SMTPConnection {
         }
         sendCommand("DATA", 354);
 
-        if(envelope.hasFile){
-            sendCommand(envelope.Message + "\n" + envelope.attachment + "\n\r.", 250);
+        if(!envelope.hasFile){
+            sendCommand(envelope.Message + "\n\r.", 250);
         }
         else{
-            sendCommand(envelope.Message + "\n\r.", 250);
+            String base64 = FileConverter.getBase64(envelope.file);
+            String type = FileConverter.getType(envelope.file);
+            String name = envelope.file.getName();
+            String newData =
+                    "Content-Type: multipart/mixed; boundary=\"000000000000cf026105f65074cc\"\n" +
+                    "\n" +
+                    "--000000000000cf026105f65074cc\n" +
+                    "Content-Type: multipart/alternative; boundary=\"000000000000cf025f05f65074ca\"\n" +
+                    "\n" +
+                    "--000000000000cf025f05f65074ca\n" +
+                    "Content-Type: text/plain; charset=\"UTF-8\"\n" +
+                    envelope.Message + "\n" + //This isn't included at all
+                    "--000000000000cf025f05f65074ca\n" +
+                    "Content-Type: text/html; charset=\"UTF-8\"\n" +
+                            envelope.Message + "\n" +
+                    "--000000000000cf025f05f65074ca--\n" +
+                    "--000000000000cf026105f65074cc\n" +
+                    "Content-Type:" + type + "; name=" + name + "\n" +
+                    "Content-Disposition: attachment; filename=" + name + "\n" +
+                    "Content-Transfer-Encoding: base64\n" +
+                    base64 + "\n" +
+                    "--000000000000cf026105f65074cc--";
+            sendCommand(newData +  "\n\r.", 250);
         }
 
     }

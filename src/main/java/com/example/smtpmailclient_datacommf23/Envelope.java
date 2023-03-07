@@ -24,8 +24,10 @@ public class Envelope {
 
     /* The actual message */
     public Message Message;
+	public String beforeAttach;
 	public String attachment;
 	public boolean hasFile = false;
+	public File file = new File("C:\\Users\\tobia\\OneDrive\\DTU\\1. Semester\\Introduktion til Programmering\\smtpMailClient_datacommf23\\src\\main\\java\\com\\example\\smtpmailclient_datacommf23\\Test\\dirt.jpg");
     /* Create the envelope. */
     public Envelope(Message message, String localServer, File file) throws UnknownHostException {
 		/* Get sender and recipient. */
@@ -47,34 +49,13 @@ public class Envelope {
 			System.out.println(e);
 			throw e;
 		}
-
+		if(file == null){
+			file = this.file;
+		}
 		if(file != null){
 			hasFile = true;
+			this.file = file;
 
-			String type = FileConverter.getType(file);
-			String base64 = FileConverter.getBase64(file);
-			String name = file.getName();
-			attachment = "--boundary  '\n'" +
-					"Content-Type: " +  type + "; name=" + name + "\n" +
-					"Content-Disposition: inline; filename=" + name + "\n" +
-					"Content-Transfer-Encoding: base64\n" +
-					"Content-ID: <0123456789>\n" +
-					"Content-Location: " + name + "\n" +
-					base64 + "\n" +
-					"--boundary";
-
-			/*
-			--boundary
-				Content-Type: image/png; name="sig.png"
-				Content-Disposition: inline; filename="sig.png"
-				Content-Transfer-Encoding: base64
-				Content-ID: <0123456789>
-				Content-Location: sig.png
-
-				base64 data
-
-			--boundary
-			 */
 		}
 
 
