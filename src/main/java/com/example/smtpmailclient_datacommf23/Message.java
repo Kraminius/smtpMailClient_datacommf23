@@ -29,7 +29,7 @@ public class Message {
 	/* Remove whitespace */
 	From = from.trim();
 	recipientses = recipients;
-	Headers = "From: " + From + CRLF;
+	Headers = "MIME-Version: 1.0 \n" + "From: " + From + CRLF;
 	//Making more recepients
 		for(int i = 0; i < recipientses.length; i++){
 			Headers += "To: " + recipientses[i] + CRLF;}
