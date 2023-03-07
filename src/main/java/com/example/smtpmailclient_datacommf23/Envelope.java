@@ -16,7 +16,7 @@ public class Envelope {
     public String Sender;
 
     /* SMTP-recipient, or contents of To-header. */
-    public String Recipient;
+    public String[] Recipient;
 
     /* Target MX-host */
     public String DestHost;
@@ -29,7 +29,7 @@ public class Envelope {
     public Envelope(Message message, String localServer) throws UnknownHostException {
 	/* Get sender and recipient. */
 	Sender = message.getFrom();
-	Recipient = message.getTo();
+	Recipient = message.getRecipientses();
 
 	/* Get message. We must escape the message to make sure that 
 	   there are no single periods on a line. This would mess up
@@ -70,7 +70,9 @@ public class Envelope {
     /* For printing the envelope. Only for debug. */
     public String toString() {
 	String res = "Sender: " + Sender + '\n';
-	res += "Recipient: " + Recipient + '\n';
+		for(int i = 0; i < Recipient.length; i++) {
+			res += "Recipient: " + Recipient[i] + '\n';
+		}
 	res += "MX-host: " + DestHost + ", address: " + DestAddr + '\n';
 	res += "Message:" + '\n';
 	res += Message.toString();

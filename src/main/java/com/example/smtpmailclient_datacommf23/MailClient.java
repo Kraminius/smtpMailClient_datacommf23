@@ -88,6 +88,9 @@ public class MailClient extends Frame {
     class SendListener implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 	    System.out.println("Sending mail");
+
+		//Laver et array med alle i toFieldet.
+		String[] recipients = toField.getText().split(" ");
 	    
 	    /* Check that we have the local mailserver */
 	    if ((serverField.getText()).equals("")) {
@@ -106,8 +109,8 @@ public class MailClient extends Frame {
 	    }
 
 	    /* Create the message */
-	    Message mailMessage = new Message(fromField.getText(), 
-					      toField.getText(), 
+	    Message mailMessage = new Message(fromField.getText(),
+						recipients,
 					      subjectField.getText(), 
 					      messageText.getText());
 
