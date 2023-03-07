@@ -139,15 +139,20 @@ public class SMTPConnection {
 
     private int rcListen() throws IOException {
         String[] temp = fromServer.readLine().split("[ -]");
-        while(fromServer.ready()){
-            temp = fromServer.readLine().split("[ -]");
-        }
-
-        String rc = temp[0];
         for (int i = 0; i<temp.length; i++){
             System.out.print(temp[i]);
             System.out.print(" ");
         }
+        while(fromServer.ready()){
+            temp = fromServer.readLine().split("[ -]");
+            for (int i = 0; i<temp.length; i++){
+                System.out.print(temp[i]);
+                System.out.print(" ");
+            }
+        }
+
+        String rc = temp[0];
+
         System.out.println();
         return Integer.parseInt(rc);
     }
