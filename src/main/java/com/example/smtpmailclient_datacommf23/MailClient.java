@@ -18,9 +18,9 @@ public class MailClient extends Frame {
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
     private Label serverLabel = new Label("Local mailserver:");
-    private TextField serverField = new TextField("datacomm.bhsi.xyz", 40);
+    private TextField serverField = new TextField("smtp.gmail.com", 40);
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("s221064@dtu.dk", 40);
+    private TextField fromField = new TextField("datacommg09@gmail.com", 40);
     private Label toLabel = new Label("To:"); 
     private TextField toField = new TextField("s221064@dtu.dk", 40);
     private Label subjectLabel = new Label("Subject:");
@@ -130,6 +130,7 @@ public class MailClient extends Frame {
 	    try {
 		SMTPConnection connection = new SMTPConnection(envelope);
 		connection.send(envelope);
+		System.out.println("help");
 		connection.close();
 	    } catch (IOException error) {
 		System.out.println("Sending failed: " + error);
