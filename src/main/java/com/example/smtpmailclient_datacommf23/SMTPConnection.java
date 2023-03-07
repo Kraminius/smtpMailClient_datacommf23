@@ -1,7 +1,11 @@
 package com.example.smtpmailclient_datacommf23;
 
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
+import java.nio.Buffer;
 import java.util.*;
 
 /**
@@ -11,13 +15,14 @@ import java.util.*;
 public class SMTPConnection {
     /* The socket to the server */
     private Socket connection;
+    private SSLSocket connectionSSL;
 
     /* Streams for reading and writing the socket */
 
     private BufferedReader fromServer;
     private PrintWriter toServer;
 
-    private static final int SMTP_PORT = 2526;
+    private static final int SMTP_PORT = 587;
     private static final String CRLF = "\r\n";
 
     /* Are we connected? Used in close() to determine what to do. */
@@ -28,18 +33,16 @@ public class SMTPConnection {
     public SMTPConnection(Envelope envelope) throws IOException {
 
         System.out.println(envelope.DestAddr.getHostName());
-        connection = new Socket(envelope.DestAddr.getHostName(), SMTP_PORT);
-        fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        toServer = new PrintWriter(connection.getOutputStream(), true);
+        SSLSocketFactory factory = new Socket();
+        connectionSSL = (SSLSocket) factory.createSocket("smtp.gmail.com", SMTP_PORT);
+        BufferedReader fromServer = new BufferedReader(new InputStreamReader(connectionSSL.getInputStream()));
+        PrintWriter toServer = new PrintWriter(connectionSSL.getOutputStream(), true);
 
 
 
 
         /* Fill in */
 
-        if(rcListen() != 220){
-         throw new IOException();
-        }
 
 	/* Read a line from server and check that the reply code is 220.
 	   If not, throw an IOException. */
@@ -71,8 +74,8 @@ public class SMTPConnection {
 	   exception thrown from sendCommand(). */
         sendCommand("EHLO" + envelope.Sender, 250);
         sendCommand("AUTH LOGIN", 334);
-        sendCommand("echo -ne Datacomm09 | base64", 334);
-        sendCommand("echo -ne ytxlseqfdyljrhph | base64", 334);
+        sendCommand("ZGF0YWNvbW1nMDk=", 334);
+        sendCommand("eXR4bHNlcWZkeWxqcmhwaA==", 235);
         sendCommand("MAIL FROM: <\""+ envelope.Sender + "\">", 250);
         for(int i = 0; i < envelope.Recipient.length; i ++) {
             sendCommand("RCPT TO: <\"" + envelope.Recipient[i] + "\">", 250);
@@ -88,7 +91,6 @@ public class SMTPConnection {
         isConnected = false;
         try {
             sendCommand("quit", 221);
-            connection.close();
         } catch (IOException e) {
             System.out.println("Unable to close connection: " + e);
             isConnected = true;
@@ -99,6 +101,7 @@ public class SMTPConnection {
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
         /* Fill in */
+
         toServer.println(command);
         if(rcListen() != rc){
             throw new IOException();
