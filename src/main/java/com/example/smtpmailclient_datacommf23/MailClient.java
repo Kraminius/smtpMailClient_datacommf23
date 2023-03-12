@@ -1,5 +1,7 @@
 package com.example.smtpmailclient_datacommf23;
 
+import javafx.stage.Stage;
+
 import java.io.*;
 import java.net.*;
 import java.awt.*;
@@ -27,11 +29,14 @@ public class MailClient extends Frame {
     private TextField subjectField = new TextField("hej", 40);
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea(10, 40);
+	private Button importButton = new Button("Import Files");
+	private Label importedLabel = new Label("none");
 
     /**
      * Create a new MailClient window with fields for entering all
      * the relevant information (From, To, Subject, and message).
      */
+	private Stage stage;
     public MailClient() {
 	super("Java Mailclient");
 	
@@ -42,6 +47,7 @@ public class MailClient extends Frame {
 	Panel toPanel = new Panel(new BorderLayout());
 	Panel subjectPanel = new Panel(new BorderLayout());
 	Panel messagePanel = new Panel(new BorderLayout());
+	Panel importPanel = new Panel(new BorderLayout());
 	serverPanel.add(serverLabel, BorderLayout.WEST);
 	serverPanel.add(serverField, BorderLayout.CENTER);
 	fromPanel.add(fromLabel, BorderLayout.WEST);
@@ -52,11 +58,14 @@ public class MailClient extends Frame {
 	subjectPanel.add(subjectField, BorderLayout.CENTER);
 	messagePanel.add(messageLabel, BorderLayout.NORTH);	
 	messagePanel.add(messageText, BorderLayout.CENTER);
+	importPanel.add(importButton, BorderLayout.WEST);
+	importPanel.add(importedLabel, BorderLayout.CENTER);
 	Panel fieldPanel = new Panel(new GridLayout(0, 1));
 	fieldPanel.add(serverPanel);
 	fieldPanel.add(fromPanel);
 	fieldPanel.add(toPanel);
 	fieldPanel.add(subjectPanel);
+	fieldPanel.add(importPanel);
 
 
 	/* Create a panel for the buttons and add listeners to the
@@ -65,10 +74,10 @@ public class MailClient extends Frame {
 	btSend.addActionListener(new SendListener());
 	btClear.addActionListener(new ClearListener());
 	btQuit.addActionListener(new QuitListener());
+	importButton.addActionListener(new ImportListener());
 	buttonPanel.add(btSend);
 	buttonPanel.add(btClear);
 	buttonPanel.add(btQuit);
-	
 	/* Add, pack, and show. */
 	add(fieldPanel, BorderLayout.NORTH);
 	add(messagePanel, BorderLayout.CENTER);
@@ -85,7 +94,7 @@ public class MailClient extends Frame {
     class SendListener implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 	    System.out.println("Sending mail");
-	    
+
 	    /* Check that we have the local mailserver */
 	    if ((serverField.getText()).equals("")) {
 		System.out.println("Need name of local mailserver!");
@@ -103,10 +112,12 @@ public class MailClient extends Frame {
 	    }
 
 	    /* Create the message */
-	    Message mailMessage = new Message(fromField.getText(), 
-					      toField.getText(), 
-					      subjectField.getText(), 
-					      messageText.getText());
+	    Message mailMessage = new Message(fromField.getText(),
+					      toField.getText(),
+					      subjectField.getText(),
+					      messageText.getText(),
+						  Import.get().getFile() //Added a file to the message
+		);
 
 	    /* Check that the message is valid, i.e., sender and
 	       recipient addresses look ok. */
@@ -144,6 +155,8 @@ public class MailClient extends Frame {
 	    toField.setText("");
 	    subjectField.setText("");
 	    messageText.setText("");
+	    importedLabel.setText("");
+		Import.get().clear(); //Clears imported file
 	}
     }
 
@@ -153,4 +166,14 @@ public class MailClient extends Frame {
 	    System.exit(0);
 	}
     }
+
+	class ImportListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String fileName = Import.get().importPressed();
+			if(!fileName.equals("")){
+				importedLabel.setText(" " + fileName);
+			}
+		}
+	}
+
 }
