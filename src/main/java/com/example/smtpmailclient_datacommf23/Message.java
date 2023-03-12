@@ -1,5 +1,6 @@
 package com.example.smtpmailclient_datacommf23;
 
+import java.io.File;
 import java.util.*;
 import java.text.*;
 
@@ -19,13 +20,14 @@ public class Message {
        from the headers. */
     private String From;
 	private String[] recipientses;
+	private File file;
 
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
-    public Message(String from, String[] recipients, String subject, String text) {
+    public Message(String from, String[] recipients, String subject, String text, File file) {
 	/* Remove whitespace */
 	From = from.trim();
 	recipientses = recipients;
@@ -34,7 +36,7 @@ public class Message {
 		for(int i = 0; i < recipientses.length; i++){
 			Headers += "To: " + recipientses[i] + CRLF;}
 	Headers += "Subject: " + subject.trim() + CRLF;
-
+	this.file = file;
 	/* A close approximation of the required format. Unfortunately
 	   only GMT. */
 	SimpleDateFormat format = 

@@ -115,13 +115,10 @@ public class MailClient extends Frame {
 
 	    /* Create the message */
 	    Message mailMessage = new Message(fromField.getText(),
-						recipients,
-					      subjectField.getText(), 
-					      messageText.getText());
-					      subjectField.getText(),
-					      messageText.getText(),
-						  Import.get().getFile() //Added a file to the message
-		);
+				recipients,
+				subjectField.getText(),
+				messageText.getText(),
+				Import.get().getFile());
 
 	    /* Check that the message is valid, i.e., sender and
 	       recipient addresses look ok. */
