@@ -1,7 +1,5 @@
 package com.example.smtpmailclient_datacommf23;
 
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -33,6 +31,9 @@ public class SMTPConnection {
         connection = new Socket(envelope.DestAddr.getHostName(), SMTP_PORT);
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         toServer = new PrintWriter(connection.getOutputStream(), true);
+
+
+
 
         /* Fill in */
 
@@ -96,6 +97,15 @@ public class SMTPConnection {
                 sslsocket.getOutputStream()));
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 sslsocket.getInputStream()));*/
+
+
+        if(!envelope.hasFile){
+            sendCommand(envelope.Message + "\n\r.", 250);
+        }
+        else{
+
+            sendCommand(DataString.getAttachString(envelope.file, envelope.Message) +  "\n\r.", 250);
+        }
 
     }
 

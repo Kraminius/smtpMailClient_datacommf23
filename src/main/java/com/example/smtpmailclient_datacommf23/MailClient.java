@@ -44,7 +44,6 @@ public class MailClient extends Frame {
 	Panel toPanel = new Panel(new BorderLayout());
 	Panel subjectPanel = new Panel(new BorderLayout());
 	Panel messagePanel = new Panel(new BorderLayout());
-	Panel importPanel = new Panel(new BorderLayout());
 	serverPanel.add(serverLabel, BorderLayout.WEST);
 	serverPanel.add(serverField, BorderLayout.CENTER);
 	fromPanel.add(fromLabel, BorderLayout.WEST);
@@ -55,14 +54,11 @@ public class MailClient extends Frame {
 	subjectPanel.add(subjectField, BorderLayout.CENTER);
 	messagePanel.add(messageLabel, BorderLayout.NORTH);	
 	messagePanel.add(messageText, BorderLayout.CENTER);
-	importPanel.add(importButton, BorderLayout.WEST);
-	importPanel.add(importedLabel, BorderLayout.CENTER);
 	Panel fieldPanel = new Panel(new GridLayout(0, 1));
 	fieldPanel.add(serverPanel);
 	fieldPanel.add(fromPanel);
 	fieldPanel.add(toPanel);
 	fieldPanel.add(subjectPanel);
-	fieldPanel.add(importPanel);
 
 
 	/* Create a panel for the buttons and add listeners to the
@@ -71,7 +67,6 @@ public class MailClient extends Frame {
 	btSend.addActionListener(new SendListener());
 	btClear.addActionListener(new ClearListener());
 	btQuit.addActionListener(new QuitListener());
-	importButton.addActionListener(new ImportListener());
 	buttonPanel.add(btSend);
 	buttonPanel.add(btClear);
 	buttonPanel.add(btQuit);
@@ -95,8 +90,7 @@ public class MailClient extends Frame {
 
 		//Laver et array med alle i toFieldet.
 		String[] recipients = toField.getText().split(" ");
-
-
+	    
 	    /* Check that we have the local mailserver */
 	    if ((serverField.getText()).equals("")) {
 		System.out.println("Need name of local mailserver!");
@@ -131,7 +125,8 @@ public class MailClient extends Frame {
 		Envelope envelope;
 		try {
 		envelope = new Envelope(mailMessage,
-						 serverField.getText());
+						 serverField.getText(),
+		);
 	    } catch (UnknownHostException e) {
 		/* If there is an error, do not go further */
 		return;
@@ -139,7 +134,6 @@ public class MailClient extends Frame {
 	    try {
 		SMTPConnection connection = new SMTPConnection(envelope);
 		connection.send(envelope);
-		System.out.println("help");
 		connection.close();
 	    } catch (IOException error) {
 		System.out.println("Sending failed: " + error);

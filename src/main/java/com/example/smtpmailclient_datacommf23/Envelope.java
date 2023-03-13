@@ -24,29 +24,42 @@ public class Envelope {
 
     /* The actual message */
     public Message Message;
-
+	public String beforeAttach;
+	public String attachment;
+	public boolean hasFile = false;
+	public File file = new File("C:\\Users\\tobia\\OneDrive\\DTU\\1. Semester\\Introduktion til Programmering\\smtpMailClient_datacommf23\\src\\main\\java\\com\\example\\smtpmailclient_datacommf23\\Test\\dirt.jpg");
     /* Create the envelope. */
-    public Envelope(Message message, String localServer) throws UnknownHostException {
-	/* Get sender and recipient. */
-	Sender = message.getFrom();
-	Recipient = message.getRecipientses();
+    public Envelope(Message message, String localServer, File file) throws UnknownHostException {
+		/* Get sender and recipient. */
+		Sender = message.getFrom();
+		Recipient = message.getRecipientses();
 
-	/* Get message. We must escape the message to make sure that 
+	/* Get message. We must escape the message to make sure that
 	   there are no single periods on a line. This would mess up
 	   sending the mail. */
-	Message = escapeMessage(message);
+		Message = escapeMessage(message);
 
-	/* Take the name of the local mailserver and map it into an
-	 * InetAddress */
-	DestHost = localServer;
-	try {
-	    DestAddr = InetAddress.getByName(DestHost);
-	} catch (UnknownHostException e) {
-	    System.out.println("Unknown host: " + DestHost);
-	    System.out.println(e);
-	    throw e;
-	}
-	return;
+		/* Take the name of the local mailserver and map it into an
+		 * InetAddress */
+		DestHost = localServer;
+		try {
+			DestAddr = InetAddress.getByName(DestHost);
+		} catch (UnknownHostException e) {
+			System.out.println("Unknown host: " + DestHost);
+			System.out.println(e);
+			throw e;
+		}
+		if(file == null){
+			file = this.file;
+		}
+		if(file != null){
+			hasFile = true;
+			this.file = file;
+
+		}
+
+
+		return;
     }
 
     /* Escape the message by doubling all periods at the beginning of
