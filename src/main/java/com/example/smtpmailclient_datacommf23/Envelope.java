@@ -27,9 +27,9 @@ public class Envelope {
 	public String beforeAttach;
 	public String attachment;
 	public boolean hasFile = false;
-	public File file = new File("C:\\Users\\tobia\\OneDrive\\DTU\\1. Semester\\Introduktion til Programmering\\smtpMailClient_datacommf23\\src\\main\\java\\com\\example\\smtpmailclient_datacommf23\\Test\\dirt.jpg");
+	public File file = null;
     /* Create the envelope. */
-    public Envelope(Message message, String localServer, File file) throws UnknownHostException {
+    public Envelope(Message message, String localServer) throws UnknownHostException {
 		/* Get sender and recipient. */
 		Sender = message.getFrom();
 		Recipient = message.getRecipientses();
@@ -49,13 +49,12 @@ public class Envelope {
 			System.out.println(e);
 			throw e;
 		}
-		if(file == null){
-			file = this.file;
+		if(message.file == null){
+			file = null;
 		}
-		if(file != null){
+		if(message.file != null){
 			hasFile = true;
-			this.file = file;
-
+			file = message.file;
 		}
 
 

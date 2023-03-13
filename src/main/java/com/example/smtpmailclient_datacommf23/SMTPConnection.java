@@ -1,5 +1,7 @@
 package com.example.smtpmailclient_datacommf23;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
 import java.util.*;

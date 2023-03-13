@@ -125,7 +125,7 @@ public class MailClient extends Frame {
 		Envelope envelope;
 		try {
 		envelope = new Envelope(mailMessage,
-						 serverField.getText(),
+						 serverField.getText()
 		);
 	    } catch (UnknownHostException e) {
 		/* If there is an error, do not go further */

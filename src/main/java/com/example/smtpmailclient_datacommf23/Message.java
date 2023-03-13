@@ -20,7 +20,7 @@ public class Message {
        from the headers. */
     private String From;
 	private String[] recipientses;
-	private File file;
+	public File file;
 
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
