@@ -102,15 +102,6 @@ public class SMTPConnection {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 sslsocket.getInputStream()));*/
 
-
-        if(!envelope.hasFile){
-            sendCommand(envelope.Message + "\n\r.", 250);
-        }
-        else{
-
-            sendCommand(DataString.getAttachString(envelope.file, envelope.Message) +  "\n\r.", 250);
-        }
-
     }
 
     /* Close the connection. First, terminate on SMTP level, then

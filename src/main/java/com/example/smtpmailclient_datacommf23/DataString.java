@@ -8,16 +8,15 @@ public class DataString {
         String type = FileConverter.getType(file);
         String name = file.getName();
         String data =
+                        "MIME-Version 1.0 \n" +
+                                "Subject: Test subject manual \n" +
+                                "Message-ID: TESTID23 \n" +
                         "Content-Type: multipart/mixed; boundary=\"000000000000cf026105f65074cc\"\n" +
                         "\n" +
-                        "--000000000000cf026105f65074cc\n" +
-                        "Content-Type: multipart/alternative; boundary=\"000000000000cf025f05f65074ca\"\n" +
-                        "\n" +
                         "--000000000000cf025f05f65074ca\n" +
-                        "Content-Type: text/plain; charset=\"UTF-8\"\n" +
-                        "--000000000000cf025f05f65074ca\n" +
-                        "Content-Type: text/html; charset=\"UTF-8\"\n" +
-                        message + "\n" +
+                        "Content-Type: text/plain; charset=\"UTF-8\"\n" + "\n" +
+                        message.Body + "\n \n" +
+
                         "--000000000000cf025f05f65074ca--\n" +
                         "--000000000000cf026105f65074cc\n" +
                         "Content-Type:" + type + "; name=" + name + "\n" +
