@@ -24,8 +24,6 @@ public class Envelope {
 
     /* The actual message */
     public Message Message;
-	public String beforeAttach;
-	public String attachment;
 	public boolean hasFile = false;
 	public File file = null;
     /* Create the envelope. */

@@ -8,7 +8,7 @@ public class DataString {
         String type = FileConverter.getType(file);
         String name = file.getName();
         String data =
-                        "MIME-Version 1.0 \n" +
+                        "MIME-Version: 1.0 \n" +
                         "Content-Type: multipart/mixed; boundary=\"123145\"\n" +
                         message.Headers + "\n\n" +
 
@@ -19,7 +19,7 @@ public class DataString {
                         message.Body + "\n \n" +
 
                         "--123145\n" +
-                        "Content-Type:" + type + "\n" +
+                        "Content-Type: " + type + "\n" +
                         "Content-Transfer-Encoding: base64\n" +
                         "Content-Disposition: attachment; filename=" + name + "\n\n" +
 
