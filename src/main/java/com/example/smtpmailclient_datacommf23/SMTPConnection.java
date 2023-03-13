@@ -84,7 +84,9 @@ public class SMTPConnection {
             System.out.println("Sending mail to: " + envelope.Recipient[i]);
         }
         sendCommand("DATA", 354);
-        sendCommand(envelope.Message + "\r\n.", 250);
+
+        if(envelope.file == null) sendCommand(envelope.Message + "\r\n.", 250);
+        else sendCommand(DataString.getAttachString(envelope.file, envelope.Message) + "\r\n.", 250);
     }
 
     public void createTLSSocket(Envelope envelope) throws IOException {
