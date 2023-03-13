@@ -9,21 +9,23 @@ public class DataString {
         String name = file.getName();
         String data =
                         "MIME-Version 1.0 \n" +
-                                "Subject: Test subject manual \n" +
-                                "Message-ID: TESTID23 \n" +
-                        "Content-Type: multipart/mixed; boundary=\"000000000000cf026105f65074cc\"\n" +
-                        "\n" +
-                        "--000000000000cf025f05f65074ca\n" +
-                        "Content-Type: text/plain; charset=\"UTF-8\"\n" + "\n" +
+                        "Content-Type: multipart/mixed; boundary=\"123145\"\n" +
+                        message.Headers + "\n\n" +
+
+                        "--123145\n" +
+                        "Content-Type: text/plain; charset=\"UTF-8\"\n" +
+                        "Content-Transfer-Encoding: 7bit\n\n" +
+
                         message.Body + "\n \n" +
 
-                        "--000000000000cf025f05f65074ca--\n" +
-                        "--000000000000cf026105f65074cc\n" +
-                        "Content-Type:" + type + "; name=" + name + "\n" +
-                        "Content-Disposition: attachment; filename=" + name + "\n" +
+                        "--123145\n" +
+                        "Content-Type:" + type + "\n" +
                         "Content-Transfer-Encoding: base64\n" +
-                        base64 + "\n" +
-                        "--000000000000cf026105f65074cc--";
+                        "Content-Disposition: attachment; filename=" + name + "\n\n" +
+
+                        base64 + "\n\n" +
+
+                        "--123145--";
 
         return data;
     }
