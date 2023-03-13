@@ -34,8 +34,13 @@ public class Message {
 
 	Headers = "From: " + From + CRLF;
 	//Making more recepients
+		String receivers = "";
 		for(int i = 0; i < recipientses.length; i++){
-			Headers += "To: " + recipientses[i] + CRLF;}
+			if(receivers.equals(""))  receivers += recipientses[i];
+			else receivers += ", " + recipientses[i];
+		}
+		Headers +=  "To: " + receivers + CRLF;
+
 	Headers += "Subject: " + subject.trim() + CRLF;
 	this.file = file;
 	/* A close approximation of the required format. Unfortunately

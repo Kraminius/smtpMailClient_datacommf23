@@ -29,5 +29,4 @@ public class DataString {
 
         return data;
     }
-
 }
