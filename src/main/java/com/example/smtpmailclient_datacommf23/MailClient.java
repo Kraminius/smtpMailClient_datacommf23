@@ -26,9 +26,9 @@ public class MailClient extends Frame {
     private Label fromLabel = new Label("From:");
     private TextField fromField = new TextField("datacommg09@gmail.com", 40);
     private Label toLabel = new Label("To:");
-    private TextField toField = new TextField("s224271@dtu.dk", 40);
+    private TextField toField = new TextField(40);
     private Label subjectLabel = new Label("Subject:");
-    private TextField subjectField = new TextField("hej", 40);
+    private TextField subjectField = new TextField(40);
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea(10, 40);
     private Button importButton = new Button("Import Files");
