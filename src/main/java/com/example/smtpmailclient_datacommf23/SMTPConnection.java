@@ -119,10 +119,10 @@ public class SMTPConnection {
                 throw new TimeOut();
             }
             case 421 -> {
-                throw new ServerUnavaliable();
+                throw new ServerUnavaliable("Server is unavailable, try again later");
             }
             case 422 -> {
-                throw new RecipientMailboxFull();
+                throw new RecipientMailboxFull("Recipient mail box is full. Contact recipient to resolve issue.");
             }
             case 101 -> {
                 throw new IOException("Unable to connect to server");
