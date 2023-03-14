@@ -49,6 +49,12 @@ public class Message {
 	    new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 	String dateString = format.format(new Date());
 	Headers += "Date: " + dateString + CRLF;
+	UUID uuid = UUID.randomUUID();
+	String[] s = From.split("@");
+	String messageId = "<" + uuid.toString() + "@" +  s[1] + ">";
+	Headers += "Message-ID: "  + messageId;
+	System.out.println(s[1]);
+	System.out.println(messageId);
 	Body = text;
     }
 
