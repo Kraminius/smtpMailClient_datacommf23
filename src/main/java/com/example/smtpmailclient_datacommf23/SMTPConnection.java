@@ -74,8 +74,17 @@ public class SMTPConnection {
             return rc == 250;
         });
         for (int i = 0; i < envelope.Recipient.length; i++) {
-            sendCommand("RCPT TO: <\"" + envelope.Recipient[i] + "\">", rc -> rc == 250);
-            System.out.println("Sending mail to: " + envelope.Recipient[i]);
+            final String recipient = envelope.Recipient[i];
+            sendCommand("RCPT TO: <\"" + recipient + "\">", rc -> {
+                if (rc == 511) {
+                    throw new BadEmail(recipient, "The To email is bad.");
+                }
+                if (rc == 512) {
+                    throw new DomainNotFound(recipient, "Error in domain name.");
+                }
+                return rc == 250;
+            });
+            System.out.println("Sending mail to: " + recipient);
             }
         sendCommand("DATA", rc -> rc == 354);
 
